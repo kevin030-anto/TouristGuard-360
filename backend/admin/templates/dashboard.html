@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1>📊 Dashboard</h1>
+    <p>TouristGuard 360 — Administration Overview</p>
+</div>
+
+<div class="stats-grid" id="statsGrid" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));">
+    <div class="stat-card animate-in">
+        <div class="stat-icon">👥</div>
+        <div class="stat-value" id="totalUsers">0</div>
+        <div class="stat-label">Total Users</div>
+    </div>
+    <div class="stat-card animate-in">
+        <div class="stat-icon">🟢</div>
+        <div class="stat-value" id="activeUsers">0</div>
+        <div class="stat-label">Active Users</div>
+    </div>
+    <div class="stat-card animate-in">
+        <div class="stat-icon">🚨</div>
+        <div class="stat-value" id="activeAlerts">0</div>
+        <div class="stat-label">Active Alerts</div>
+    </div>
+    <div class="stat-card animate-in">
+        <div class="stat-icon">⚠️</div>
+        <div class="stat-value" id="dangerZones">0</div>
+        <div class="stat-label">Danger Zones</div>
+    </div>
+    <div class="stat-card animate-in">
+        <div class="stat-icon">🆘</div>
+        <div class="stat-value" id="activeSOS">0</div>
+        <div class="stat-label">Active SOS</div>
+    </div>
+    <div class="stat-card animate-in">
+        <div class="stat-icon">✅</div>
+        <div class="stat-value" id="resolvedSOS" style="color: var(--success);">0</div>
+        <div class="stat-label">Resolved SOS</div>
+    </div>
+    <div class="stat-card animate-in">
+        <div class="stat-icon">📄</div>
+        <div class="stat-value" id="totalDocs">0</div>
+        <div class="stat-label">Total Documents</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>👥 Registered Users</h3>
+        <div>
+            <button class="btn btn-primary btn-sm" onclick="showAddUserModal()">+ Add User</button>
+        </div>
+    </div>
+    <div class="search-bar" style="padding: 16px 24px 0;">
+        <input type="text" class="form-control" id="userSearch" placeholder="Search users..." onkeyup="filterUsers()">
+    </div>
+    <div class="card-body" style="padding: 0;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Country</th>
+                    <th>Blood Group</th>
+                    <th>Registered</th>
+                    <th>Last Login</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="usersTableBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- User Detail Modal -->
+<div class="modal-overlay hidden" id="userDetailModal">
+    <div class="modal" style="max-width: 800px;">
+        <div class="modal-header">
+            <h3 id="userDetailTitle">User Details</h3>
+            <button class="modal-close" onclick="closeModal('userDetailModal')">&times;</button>
+        </div>
+        <div class="modal-body" id="userDetailBody"></div>
+    </div>
+</div>
+
+<!-- Add/Edit User Modal -->
+<div class="modal-overlay hidden" id="userFormModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 id="userFormTitle">Add User</h3>
+            <button class="modal-close" onclick="closeModal('userFormModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="userForm">
+                <input type="hidden" id="editUserId">
+                <div class="form-row">
+                    <div class="form-group"><label>Full Name *</label><input type="text" class="form-control"
+                            id="formName" required></div>
+                    <div class="form-group"><label>Email *</label><input type="email" class="form-control"
+                            id="formEmail" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Password *</label><input type="password" class="form-control"
+                            id="formPassword"></div>
+                    <div class="form-group"><label>Age</label><input type="number" class="form-control" id="formAge">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Country</label><input type="text" class="form-control"
+                            id="formCountry"></div>
+                    <div class="form-group"><label>Blood Group</label>
+                        <select class="form-control" id="formBloodGroup">
+                            <option value="">Select</option>
+                            <option>A+</option>
+                            <option>A-</option>
+                            <option>B+</option>
+                            <option>B-</option>
+                            <option>AB+</option>
+                            <option>AB-</option>
+                            <option>O+</option>
+                            <option>O-</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group"><label>Phone</label><input type="text" class="form-control" id="formPhone">
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="closeModal('userFormModal')">Cancel</button>
+            <button class="btn btn-primary" onclick="saveUser()">Save User</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/dashboard.js"></script>
+{% endblock %}

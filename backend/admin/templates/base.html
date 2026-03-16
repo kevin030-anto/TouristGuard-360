@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TouristGuard 360 - Admin Panel</title>
+    <link rel="stylesheet" href="/static/css/admin.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+
+<body>
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">🛡️</div>
+            <h2>TouristGuard 360</h2>
+            <p class="subtitle">Admin Panel</p>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="/admin/dashboard"
+                    class="nav-link {% if request.path == '/admin/' or request.path == '/admin/dashboard' %}active{% endif %}"><span
+                        class="icon">📊</span> Dashboard</a></li>
+            <li><a href="/admin/alerts" class="nav-link {% if request.path == '/admin/alerts' %}active{% endif %}"><span
+                        class="icon">🚨</span> Alerts & Notifications</a></li>
+            <li><a href="/admin/danger-zones"
+                    class="nav-link {% if request.path == '/admin/danger-zones' %}active{% endif %}"><span
+                        class="icon">⚠️</span> Danger Zones</a></li>
+            <li><a href="/admin/monitoring"
+                    class="nav-link {% if request.path == '/admin/monitoring' %}active{% endif %}"><span
+                        class="icon">📡</span> Live Monitoring</a></li>
+            <li><a href="/admin/sos-monitor"
+                    class="nav-link {% if request.path == '/admin/sos-monitor' %}active{% endif %}"><span
+                        class="icon">🆘</span> SOS Monitor</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <p>For Police & Medical Use Only</p>
+        </div>
+    </nav>
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

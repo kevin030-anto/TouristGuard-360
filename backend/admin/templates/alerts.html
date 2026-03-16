@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1>🚨 Alerts & Notifications</h1>
+    <p>Manage safety alerts and public notifications</p>
+</div>
+
+<div class="tabs">
+    <button class="tab active" onclick="switchTab('alerts')">🚨 Alerts</button>
+    <button class="tab" onclick="switchTab('notifications')">📢 Notifications</button>
+</div>
+
+<!-- Alerts Section -->
+<div id="alertsSection">
+    <div class="card">
+        <div class="card-header">
+            <h3>Active Alerts</h3>
+            <button class="btn btn-danger btn-sm" onclick="showAlertForm()">+ Send Alert</button>
+        </div>
+        <div class="search-bar" style="padding: 16px 24px 0;">
+            <input type="text" class="form-control" id="alertSearch" placeholder="Search alerts by name or location..."
+                onkeyup="filterAlerts()">
+        </div>
+        <div class="card-body" style="padding: 0;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Severity</th>
+                        <th>Location</th>
+                        <th>Radius</th>
+                        <th>Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="alertsTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Notifications Section -->
+<div id="notificationsSection" class="hidden">
+    <div class="card">
+        <div class="card-header">
+            <h3>Notifications</h3>
+            <button class="btn btn-primary btn-sm" onclick="showNotificationForm()">+ Send Notification</button>
+        </div>
+        <div class="card-body" style="padding: 0;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="notificationsTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Alert Form Modal -->
+<div class="modal-overlay hidden" id="alertFormModal">
+    <div class="modal" style="max-width: 700px;">
+        <div class="modal-header">
+            <h3 id="alertFormTitle">Send Alert</h3>
+            <button class="modal-close" onclick="closeModal('alertFormModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="alertForm">
+                <input type="hidden" id="editAlertId">
+                <div class="form-group"><label>Alert Name *</label><input class="form-control" id="alertName" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Alert Type *</label>
+                        <select class="form-control" id="alertType" required>
+                            <option value="rain">🌧️ Heavy Rainfall</option>
+                            <option value="landslide">🏔️ Landslide</option>
+                            <option value="weather">🌪️ Extreme Weather</option>
+                            <option value="emergency">🆘 Emergency</option>
+                            <option value="flood">🌊 Flood</option>
+                            <option value="other">⚡ Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Severity</label>
+                        <select class="form-control" id="alertSeverity">
+                            <option value="info">Info</option>
+                            <option value="warning" selected>Warning</option>
+                            <option value="danger">Danger</option>
+                            <option value="critical">Critical</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group"><label>Description</label><textarea class="form-control"
+                        id="alertDescription"></textarea></div>
+                <div class="form-group"><label>📍 Search location (India)</label>
+                    <div style="display:flex;gap:8px;margin-bottom:8px;">
+                        <input type="text" class="form-control" id="alertPlaceSearch" placeholder="e.g. Chennai, Taj Mahal, Connaught Place..."
+                            style="flex:1;">
+                        <button type="button" class="btn btn-outline btn-sm" onclick="searchAlertPlace()">Search</button>
+                    </div>
+                    <div id="alertPlaceResults" class="form-control" style="max-height:120px;overflow-y:auto;display:none;"></div>
+                </div>
+                <div class="form-group"><label>📍 Or select on map (click to place marker)</label>
+                    <div id="alertMap" class="map-container"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Latitude</label><input class="form-control" id="alertLat"
+                            type="number" step="any" required></div>
+                    <div class="form-group"><label>Longitude</label><input class="form-control" id="alertLng"
+                            type="number" step="any" required></div>
+                </div>
+                <div class="form-group"><label>Radius (km)</label><input class="form-control" id="alertRadius"
+                        type="number" value="10" min="1"></div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="closeModal('alertFormModal')">Cancel</button>
+            <button class="btn btn-danger" onclick="saveAlert()">Send Alert</button>
+        </div>
+    </div>
+</div>
+
+<!-- Notification Form Modal -->
+<div class="modal-overlay hidden" id="notifFormModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 id="notifFormTitle">Send Notification</h3>
+            <button class="modal-close" onclick="closeModal('notifFormModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="notifForm">
+                <input type="hidden" id="editNotifId">
+                <div class="form-group"><label>Notification Name *</label><input class="form-control" id="notifName"
+                        required></div>
+                <div class="form-group"><label>Description *</label><textarea class="form-control" id="notifDescription"
+                        required></textarea></div>
+                <div class="form-row">
+                    <div class="form-group"><label>Start Date *</label><input class="form-control" id="notifStartDate"
+                            type="date" required></div>
+                    <div class="form-group"><label>End Date *</label><input class="form-control" id="notifEndDate"
+                            type="date" required></div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="closeModal('notifFormModal')">Cancel</button>
+            <button class="btn btn-primary" onclick="saveNotification()">Send Notification</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/alerts.js"></script>
+{% endblock %}

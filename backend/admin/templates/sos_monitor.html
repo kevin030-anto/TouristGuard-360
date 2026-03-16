@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1>🆘 SOS Monitor & History</h1>
+    <p>Real-time SOS alert monitoring and emergency response history</p>
+</div>
+
+<!-- Stats -->
+<div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
+    <div class="stat-card">
+        <div class="stat-icon">🔴</div>
+        <div class="stat-value pulse" id="sosActiveCount" style="color: var(--danger);">0</div>
+        <div class="stat-label">Active SOS</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <div class="stat-value" id="sosResolvedCount" style="color: var(--success);">0</div>
+        <div class="stat-label">Resolved Today</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">📊</div>
+        <div class="stat-value" id="sosTotalCount">0</div>
+        <div class="stat-label">Total All Time</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">⏱️</div>
+        <div class="stat-value" id="sosAvgResponse">—</div>
+        <div class="stat-label">Avg Response</div>
+    </div>
+</div>
+
+<!-- Active SOS Section -->
+<div class="card">
+    <div class="card-header">
+        <h3>🔴 Active SOS Alerts</h3>
+        <div style="display: flex; gap: 8px; align-items: center;">
+            <span id="sosLastUpdate" style="font-size: 12px; color: #94a3b8;"></span>
+            <button class="btn btn-outline btn-sm" onclick="loadSOSData()">🔄 Refresh</button>
+            <button class="btn btn-success btn-sm" id="sosAutoRefreshBtn" onclick="toggleSOSAutoRefresh()">⏸️ Auto: ON
+                (0.5s)</button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div id="sosMap" class="map-container" style="height: 400px; margin-bottom: 16px;"></div>
+        <div id="activeSOSList"></div>
+    </div>
+</div>
+
+<!-- SOS History Section -->
+<div class="card">
+    <div class="card-header">
+        <h3>📋 SOS History</h3>
+        <div>
+            <input type="text" class="form-control" id="sosHistorySearch" placeholder="Search by name, email..."
+                onkeyup="filterHistory()" style="width: 250px;">
+        </div>
+    </div>
+    <div class="card-body" style="padding: 0;">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Contact</th>
+                    <th>Blood Group</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Resolved</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="sosHistoryBody"></tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/sos_monitor.js"></script>
+{% endblock %}

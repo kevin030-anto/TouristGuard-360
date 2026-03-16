@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1>📡 Live Tourist Monitoring</h1>
+    <p>Real-time tracking of all active tourists and danger zone alerts</p>
+</div>
+
+<div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-value" id="monActiveUsers">0</div>
+        <div class="stat-label">Active Users on Map</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">⚠️</div>
+        <div class="stat-value pulse" id="monUsersInDanger" style="color: var(--danger);">0</div>
+        <div class="stat-label">Users in Danger Zones</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">🆘</div>
+        <div class="stat-value pulse" id="monActiveSOS" style="color: var(--warning);">0</div>
+        <div class="stat-label">Active SOS Alerts</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>🗺️ Live Map</h3>
+        <div style="display: flex; gap: 8px;">
+            <button class="btn btn-outline btn-sm" onclick="refreshData()">🔄 Refresh</button>
+            <button class="btn btn-success btn-sm" id="autoRefreshBtn" onclick="toggleAutoRefresh()">▶ Auto-Refresh:
+                OFF</button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div id="monitoringMap" class="map-container" style="height: 550px;"></div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>📋 Active User List</h3>
+    </div>
+    <div class="card-body" style="padding: 0;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Location</th>
+                    <th>Last Update</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="monitoringTableBody"></tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/monitoring.js"></script>
+{% endblock %}
