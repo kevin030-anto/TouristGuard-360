@@ -67,19 +67,17 @@ A comprehensive mobile application system designed to enhance tourist safety thr
 ### ⚙️ Settings
 - View/edit profile (name, age, country, blood group, phone, emergency contacts)
 - Theme selection (Light / Dark / System Default)
-- Language selection (English, Japanese, Hindi, Tamil)
+- Language selection (English, Japanese, French, German)
 - Server connection status + IP configuration
 - Logout & Delete Account options
 
 ### 🌍 Multilingual Support
-- English, Japanese (日本語), Hindi (हिन्दी), Tamil (தமிழ்)
+- English, Japanese, French, German
 - Dynamic UI update on language change
 
 ---
 
 ## 🖥️ Admin Panel Features
-
-> Web-based dashboard for Police and Medical authorities. No login required (restricted internal system).
 
 ### Dashboard
 - View all registered users with details
