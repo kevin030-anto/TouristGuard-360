@@ -10,16 +10,16 @@ A comprehensive mobile application system designed to enhance tourist safety thr
 
 ```
 ┌──────────────────────┐     HTTP/WebSocket     ┌──────────────────────────┐
-│   Flutter Mobile App  │ ◄──────────────────► │    Python Flask Backend    │
-│   (Tourist User)      │                       │    (localhost:5000)        │
+│   Flutter Mobile App │ ◄──────────────────►   │   Python Flask Backend   │
+│   (Tourist User)     │                        │    (localhost:5000)      │
 └──────────────────────┘                        ├──────────────────────────┤
-                                                 │  SQLite Database          │
-                                                 │  Mock Blockchain          │
-                                                 │  Encrypted File Storage   │
-                                                 ├──────────────────────────┤
-                                                 │  Web Admin Panel          │
-                                                 │  (Police & Medical Auth)  │
-                                                 └──────────────────────────┘
+                                                │  SQLite Database         │
+                                                │  Mock Blockchain         │
+                                                │  Encrypted File Storage  │
+                                                ├──────────────────────────┤
+                                                │  Web Admin Panel         │
+                                                │  (Police & Medical Auth) │
+                                                └──────────────────────────┘
 ```
 
 | Component            | Technology                          |
